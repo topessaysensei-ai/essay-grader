@@ -8,13 +8,17 @@ export default async function handler(req) {
   }
 
   try {
-    const { essay } = await req.json();
+    // We now accept studentName and studentEmail
+    const { essay, studentName, studentEmail } = await req.json();
 
     if (!essay || essay.length < 50) {
       return new Response(JSON.stringify({ error: "Essay is too short to grade." }), { status: 400 });
     }
 
-    // UPDATED PROMPT: Problem-focused, brief, no solutions.
+    // --- LOG THE LEAD ---
+    // This prints the email to your Vercel Dashboard Logs
+    console.log(`NEW LEAD CAPTURED: Name: ${studentName}, Email: ${studentEmail}`);
+
     const systemPrompt = `
       You are Dr. Arash Rahmani, a strict Ivy League admissions reader.
       
