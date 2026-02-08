@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essay Sensei | AI Assessment Tool</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,700;1,300&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --navy: #0A2540;
+            --gold: #D4AF37;
+            --light-gold: #f9f4e0;
+            --white: #ffffff;
+            --gray: #f4f6f8;
+            --text-dark: #333333;
+            --text-light: #666666;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--gray);
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Hero Section (The Navy Blue Top) */
+        .hero {
+            background-color: var(--navy);
+            color: var(--white);
+            padding: 60px 20px 100px 20px; /* Extra padding at bottom for overlap */
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.5rem;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .hero p.tagline {
+            font-family: 'Merriweather', serif;
+            font-style: italic;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* The Main Card Container */
+        .container {
+            max-width: 800px;
+            margin: -60px auto 50px auto; /* Pulls the card up into the blue section */
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+            position: relative;
+        }
+
+        /* Intro Text inside the card */
+        .intro-text {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-light);
+        }
+        
+        .intro-text strong {
+            color: var(--navy);
+        }
+
+        /* Input Area */
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            resize: vertical;
+            transition: all 0.3s ease;
+            box-sizing: border-box; /* Ensures padding doesn't break layout */
+        }
+
+        textarea:focus {
+            border-color: var(--navy);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(10, 37, 64, 0.1);
+        }
+
+        /* The Magic Button */
+        .magic-btn {
+            display: block;
+            width: 100%;
+            background-color: var(--navy);
+            color: var(--white);
+            padding: 18px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s, background-color 0.2s;
+            font-family: 'Merriweather', serif;
+            letter-spacing: 0.5px;
+        }
+
+        .magic-btn:hover {
+            background-color: #163a5f;
+            transform: translateY(-2px);
+        }
+
+        /* Loading State */
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        /* Results Section */
+        #result {
+            display: none;
+            margin-top: 40px;
+            border-top: 1px solid #eee;
+            padding-top: 30px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .score-display {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            background: var(--navy);
+            color: var(--white);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: 700;
+            font-family: 'Merriweather', serif;
+            border: 4px solid var(--gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .score-label {
+            display: block;
+            margin-top: 10px;
+            font-weight: 600;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .feedback-card {
+            background: var(--light-gold);
+            border-left: 5px solid var(--gold);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .feedback-card h3 {
+            margin-top: 0;
+            color: var(--navy);
+            font-family: 'Merriweather', serif;
+            font-size: 1.1rem;
+        }
+
+        /* Call to Action Box */
+        .cta-box {
+            text-align: center;
+            background: #fff;
+            border: 2px solid var(--navy);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--navy);
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .cta-btn:hover {
+            background: #b5952f;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 600px) {
+            .hero { padding: 40px 20px 80px 20px; }
+            .hero h1 { font-size: 2rem; }
+            .container { padding: 20px; margin-top: -50px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <h1>Dr. Arash Rahmani</h1>
+        <p class="tagline">The Essay Sensei | PhD in English</p>
+    </div>
+
+    <div class="container">
+        
+        <div class="intro-text">
+            <h2 style="font-family: 'Merriweather', serif; color: var(--navy); margin-bottom: 15px;">Free Essay Assessment Tool</h2>
+            <p>
+                Welcome. I have distilled my years of Ivy League admissions consulting into this exclusive tool. 
+                Paste your draft below to receive instant, honest feedback on your narrative arc, voice, and admissions potential.
+            </p>
+            <p style="font-size: 0.9rem; opacity: 0.8;">(Don't worry, your essay remains private.)</p>
+        </div>
+
+        <textarea id="essayInput" placeholder="Paste your Common App or Supplemental essay here..."></textarea>
+        
+        <button class="magic-btn" onclick="gradeEssay()">Let Dr. Rahmani Work His Magic ✨</button>
+        
+        <p class="loading" id="loadingMsg">Analyzing your narrative structure... please wait...</p>
+
+        <div id="result">
+            <div class="score-display">
+                <div class="score-circle" id="scoreDisplay">--</div>
+                <span class="score-label">Acceptance Potential</span>
+            </div>
+
+            <div class="feedback-card">
+                <h3>🔥 The Narrative Structure</h3>
+                <p id="phoenixOut">...</p>
+            </div>
+
+            <div class="feedback-card" style="background: #eef7ff; border-left-color: var(--navy);">
+                <h3>🎣 The Hook Strategy</h3>
+                <p id="hookOut">...</p>
+            </div>
+
+            <div class="feedback-card" style="background: #fdf2f2; border-left-color: #d9534f;">
+                <h3>🗣️ Voice & Authenticity</h3>
+                <p id="voiceOut">...</p>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <h3 style="font-family: 'Merriweather', serif; color: var(--navy);">Main Critique:</h3>
+                <p id="mainCritiqueOut" style="font-size: 1.1rem; color: #444;"></p>
+            </div>
+            
+            <div class="cta-box">
+                <h3 style="margin-top: 0; color: var(--navy);">Ready for the Ivy League?</h3>
+                <p id="upsellOut" style="margin-bottom: 20px;">Your essay has potential, but a low score here means it might get lost in the stack.</p>
+                <a href="https://essaysensei.vip" target="_blank" class="cta-btn">Book Full Essay Review</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        async function gradeEssay() {
+            const essay = document.getElementById('essayInput').value;
+            // Simple check to ensure they actually pasted something meaningful
+            if (essay.length < 50) return alert("Please paste a longer essay draft so I can analyze it properly.");
+
+            const btn = document.querySelector('.magic-btn');
+            const loading = document.getElementById('loadingMsg');
+            const result = document.getElementById('result');
+
+            // UI State: Loading
+            btn.disabled = true;
+            btn.style.opacity = "0.7";
+            btn.innerText = "Consulting the AI Model...";
+            loading.style.display = 'block';
+            result.style.display = 'none';
+
+            try {
+                // Call the backend (Vercel Function)
+                const response = await fetch('/api/grade', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ essay })
+                });
+
+                const data = await response.json();
+                
+                // Update the UI with data from the AI
+                document.getElementById('scoreDisplay').innerText = data.score;
+                document.getElementById('phoenixOut').innerText = data.phoenix_feedback;
+                document.getElementById('hookOut').innerText = data.hook_feedback;
+                document.getElementById('voiceOut').innerText = data.voice_feedback;
+                document.getElementById('mainCritiqueOut').innerText = data.main_critique;
+                document.getElementById('upsellOut').innerText = data.upsell_blurb;
+                
+                // Show Result
+                result.style.display = 'block';
+                
+                // Smooth scroll to results
+                result.scrollIntoView({ behavior: 'smooth' });
+
+            } catch (err) {
+                console.error(err);
+                alert("Something went wrong. Please try again.");
+            } finally {
+                // Reset UI State
+                loading.style.display = 'none';
+                btn.disabled = false;
+                btn.style.opacity = "1";
+                btn.innerText = "Let Dr. Rahmani Work His Magic ✨";
+            }
+        }
+    </script>
+
+</body>
+</html>
