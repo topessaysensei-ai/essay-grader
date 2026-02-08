@@ -17,175 +17,59 @@
             --gray: #f4f6f8;
             --text-dark: #333333;
             --text-light: #666666;
+            --error-red: #d9534f;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--gray);
-            margin: 0;
-            padding: 0;
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--gray); margin: 0; padding: 0; color: var(--text-dark); line-height: 1.6; }
+        
+        .hero { background-color: var(--navy); color: var(--white); padding: 60px 20px 100px 20px; text-align: center; }
+        .hero h1 { font-family: 'Merriweather', serif; font-size: 2.5rem; margin: 0; font-weight: 700; }
+        .hero p.tagline { font-family: 'Merriweather', serif; font-style: italic; font-weight: 300; opacity: 0.9; margin-top: 10px; font-size: 1.1rem; }
 
-        .hero {
-            background-color: var(--navy);
-            color: var(--white);
-            padding: 60px 20px 100px 20px;
-            text-align: center;
-        }
+        .container { max-width: 800px; margin: -60px auto 50px auto; background: var(--white); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 40px; position: relative; }
 
-        .hero h1 {
-            font-family: 'Merriweather', serif;
-            font-size: 2.5rem;
-            margin: 0;
-            font-weight: 700;
-        }
+        .intro-text { text-align: center; margin-bottom: 30px; color: var(--text-light); }
+        .intro-text h2 { font-family: 'Merriweather', serif; color: var(--navy); margin-bottom: 15px; }
 
-        .hero p.tagline {
-            font-family: 'Merriweather', serif;
-            font-style: italic;
-            font-weight: 300;
-            opacity: 0.9;
-            margin-top: 10px;
-            font-size: 1.1rem;
-        }
+        /* Text Area & Word Count */
+        textarea { width: 100%; height: 300px; padding: 20px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; font-family: 'Inter', sans-serif; resize: vertical; transition: all 0.3s ease; box-sizing: border-box; }
+        textarea:focus { border-color: var(--navy); outline: none; }
+        textarea.error { border-color: var(--error-red); background-color: #fdf2f2; }
 
-        .container {
-            max-width: 800px;
-            margin: -60px auto 50px auto;
-            background: var(--white);
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 40px;
-            position: relative;
-        }
+        .word-count { text-align: right; font-size: 0.85rem; margin-top: 5px; color: var(--text-light); font-weight: 500; }
+        .word-count.over-limit { color: var(--error-red); font-weight: bold; }
 
-        .intro-text {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--text-light);
-        }
-
-        textarea {
-            width: 100%;
-            height: 300px;
-            padding: 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            font-family: 'Inter', sans-serif;
-            resize: vertical;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-        }
-
-        textarea:focus {
-            border-color: var(--navy);
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(10, 37, 64, 0.1);
-        }
-
-        .magic-btn {
-            display: block;
-            width: 100%;
-            background-color: var(--navy);
-            color: var(--white);
-            padding: 18px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: transform 0.2s, background-color 0.2s;
-            font-family: 'Merriweather', serif;
-            letter-spacing: 0.5px;
-        }
-
-        .magic-btn:hover {
-            background-color: #163a5f;
-            transform: translateY(-2px);
-        }
+        .magic-btn { display: block; width: 100%; background-color: var(--navy); color: var(--white); padding: 18px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-top: 20px; transition: transform 0.2s, background-color 0.2s; font-family: 'Merriweather', serif; letter-spacing: 0.5px; }
+        .magic-btn:hover { background-color: #163a5f; transform: translateY(-2px); }
+        .magic-btn:disabled { background-color: #ccc; cursor: not-allowed; transform: none; }
 
         .loading { display: none; text-align: center; margin-top: 20px; color: var(--text-light); font-style: italic; }
 
         #result { display: none; margin-top: 40px; border-top: 1px solid #eee; padding-top: 30px; animation: fadeIn 0.6s ease; }
-
+        
         .score-display { text-align: center; margin-bottom: 30px; }
-
-        .score-circle {
-            width: 120px;
-            height: 120px;
-            background: var(--navy);
-            color: var(--white);
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 42px;
-            font-weight: 700;
-            font-family: 'Merriweather', serif;
-            border: 4px solid var(--gold);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
+        .score-circle { width: 120px; height: 120px; background: var(--navy); color: var(--white); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 42px; font-weight: 700; font-family: 'Merriweather', serif; border: 4px solid var(--gold); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .score-label { display: block; margin-top: 10px; font-weight: 600; color: var(--navy); text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
 
-        .feedback-card {
-            background: var(--light-gold);
-            border-left: 5px solid var(--gold);
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-        }
+        /* New Grid Layout for Feedback */
+        .feedback-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media (min-width: 600px) { .feedback-grid { grid-template-columns: 1fr 1fr; } }
 
-        .feedback-card h3 { margin-top: 0; color: var(--navy); font-family: 'Merriweather', serif; font-size: 1.1rem; }
+        .feedback-card { background: var(--gray); border-left: 4px solid var(--navy); padding: 15px 20px; border-radius: 4px; }
+        .feedback-card h3 { margin-top: 0; color: var(--navy); font-family: 'Merriweather', serif; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+        .feedback-card p { font-size: 0.95rem; margin-bottom: 0; color: #444; }
 
-        .cta-box {
-            text-align: center;
-            background: #fff;
-            border: 2px solid var(--navy);
-            padding: 30px;
-            border-radius: 8px;
-            margin-top: 40px;
-        }
+        .special-rule-card { grid-column: 1 / -1; background: var(--light-gold); border-left-color: var(--gold); }
 
-        .cta-btn {
-            display: inline-block;
-            background: var(--gold);
-            color: var(--navy);
-            padding: 15px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 15px;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-        }
-
+        .cta-box { text-align: center; background: #fff; border: 2px solid var(--navy); padding: 30px; border-radius: 8px; margin-top: 40px; }
+        .cta-btn { display: inline-block; background: var(--gold); color: var(--navy); padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; margin-top: 15px; transition: all 0.2s; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
         .cta-btn:hover { background: #b5952f; transform: scale(1.05); }
 
-        /* The "Lock" Screen Overlay */
-        #limitReached {
-            display: none;
-            text-align: center;
-            padding: 40px;
-            background: #fdf2f2;
-            border: 2px solid #e74c3c;
-            border-radius: 8px;
-        }
+        #limitReached { display: none; text-align: center; padding: 40px; background: #fdf2f2; border: 2px solid #e74c3c; border-radius: 8px; }
         #limitReached h2 { color: #c0392b; font-family: 'Merriweather', serif; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        @media (max-width: 600px) {
-            .hero { padding: 40px 20px 80px 20px; }
-            .hero h1 { font-size: 2rem; }
-            .container { padding: 20px; margin-top: -50px; }
-        }
+        @media (max-width: 600px) { .hero { padding: 40px 20px 80px 20px; } .hero h1 { font-size: 2rem; } .container { padding: 20px; margin-top: -50px; } }
     </style>
 </head>
 <body>
@@ -199,24 +83,22 @@
         
         <div id="graderInterface">
             <div class="intro-text">
-                <h2 style="font-family: 'Merriweather', serif; color: var(--navy); margin-bottom: 15px;">Free Essay Assessment Tool</h2>
-                <p>
-                    Welcome. I have distilled my years of Ivy League admissions consulting into this exclusive tool. 
-                    Paste your draft below to receive instant, honest feedback on your narrative arc, voice, and admissions potential.
-                </p>
+                <h2>Free Essay Assessment</h2>
+                <p>Paste your draft below (Max 700 words) for an instant analysis based on Narrative Arc, Storytelling, and Ivy League mechanics.</p>
                 <p style="font-size: 0.9rem; opacity: 0.8;">(Limit: 1 Free Check per Student)</p>
             </div>
 
-            <textarea id="essayInput" placeholder="Paste your Common App or Supplemental essay here..."></textarea>
+            <textarea id="essayInput" placeholder="Paste your Common App or Supplemental essay here..." oninput="checkWordCount()"></textarea>
+            <div id="wordCountDisplay" class="word-count">Words: 0 / 700</div>
             
-            <button class="magic-btn" onclick="gradeEssay()">Let Dr. Rahmani Work His Magic ✨</button>
+            <button id="submitBtn" class="magic-btn" onclick="gradeEssay()">Let Dr. Rahmani Work His Magic ✨</button>
             
-            <p class="loading" id="loadingMsg">Analyzing your narrative structure... please wait...</p>
+            <p class="loading" id="loadingMsg">Analyzing narrative arc and syntax... please wait...</p>
         </div>
 
         <div id="limitReached">
             <h2>⚠️ Assessment Limit Reached</h2>
-            <p>You have already used your free essay analysis. Excellent essays require multiple revisions and expert human insight.</p>
+            <p>You have already used your free essay analysis.</p>
             <p>To get a second look or a full edit, please work with me directly.</p>
             <a href="https://essaysensei.vip" target="_blank" class="cta-btn">Book Dr. Rahmani Now</a>
         </div>
@@ -227,29 +109,43 @@
                 <span class="score-label">Acceptance Potential</span>
             </div>
 
-            <div class="feedback-card">
-                <h3>🔥 The Narrative Structure</h3>
-                <p id="phoenixOut">...</p>
+            <div style="margin-bottom: 25px;">
+                <h3 style="font-family: 'Merriweather', serif; color: var(--navy); border-bottom: 2px solid #eee; padding-bottom: 10px;">PhD Analysis</h3>
             </div>
 
-            <div class="feedback-card" style="background: #eef7ff; border-left-color: var(--navy);">
-                <h3>🎣 The Hook Strategy</h3>
-                <p id="hookOut">...</p>
+            <div class="feedback-grid">
+                <div class="feedback-card">
+                    <h3>📖 Narrative Arc</h3>
+                    <p id="narrativeOut">...</p>
+                </div>
+                <div class="feedback-card">
+                    <h3>🎣 Storytelling</h3>
+                    <p id="storytellingOut">...</p>
+                </div>
+                <div class="feedback-card">
+                    <h3>🏗️ Paragraph Structure</h3>
+                    <p id="structureOut">...</p>
+                </div>
+                <div class="feedback-card">
+                    <h3>✒️ Syntax & Grammar</h3>
+                    <p id="mechanicsOut">...</p>
+                </div>
+                
+                <div class="feedback-card special-rule-card">
+                    <h3>🌟 Special Rules (Phoenix & Show Don't Tell)</h3>
+                    <p id="specialOut">...</p>
+                </div>
+                
+                <div class="feedback-card special-rule-card" style="background: #eef7ff; border-left-color: #27ae60;">
+                    <h3>🔗 Coherence & Cohesion</h3>
+                    <p id="coherenceOut">...</p>
+                </div>
             </div>
 
-            <div class="feedback-card" style="background: #fdf2f2; border-left-color: #d9534f;">
-                <h3>🗣️ Voice & Authenticity</h3>
-                <p id="voiceOut">...</p>
-            </div>
-
-            <div style="margin-top: 30px;">
-                <h3 style="font-family: 'Merriweather', serif; color: var(--navy);">Main Critique:</h3>
-                <p id="mainCritiqueOut" style="font-size: 1.1rem; color: #444;"></p>
-            </div>
-            
             <div class="cta-box">
-                <h3 style="margin-top: 0; color: var(--navy);">Ready for the Ivy League?</h3>
-                <p id="upsellOut" style="margin-bottom: 20px;">Your essay has potential, but a low score here means it might get lost in the stack.</p>
+                <h3 style="margin-top: 0; color: var(--navy);">Main Critique</h3>
+                <p id="mainCritiqueOut" style="margin-bottom: 20px; font-weight: 500; color: #d9534f;"></p>
+                <p id="upsellOut" style="font-size: 0.9rem;"></p>
                 <a href="https://essaysensei.vip" target="_blank" class="cta-btn">Book Full Essay Review</a>
             </div>
         </div>
@@ -257,7 +153,7 @@
     </div>
 
     <script>
-        // 1. CHECK ON LOAD: Has the user been here before?
+        // 1. Check if user has used the tool before
         window.onload = function() {
             if (localStorage.getItem('essaySenseiUsed') === 'true') {
                 showLimitReached();
@@ -270,11 +166,36 @@
             document.getElementById('limitReached').style.display = 'block';
         }
 
+        // 2. Word Count Logic
+        function checkWordCount() {
+            const textarea = document.getElementById('essayInput');
+            const counter = document.getElementById('wordCountDisplay');
+            const btn = document.getElementById('submitBtn');
+            
+            // Count words by splitting by spaces (filter removes empty strings)
+            const words = textarea.value.trim().split(/\s+/).filter(word => word.length > 0).length;
+            
+            counter.innerText = `Words: ${words} / 700`;
+
+            if (words > 700) {
+                counter.classList.add('over-limit');
+                textarea.classList.add('error');
+                btn.disabled = true;
+                btn.innerText = "Word Limit Exceeded (Max 700)";
+            } else {
+                counter.classList.remove('over-limit');
+                textarea.classList.remove('error');
+                btn.disabled = false;
+                btn.innerText = "Let Dr. Rahmani Work His Magic ✨";
+            }
+        }
+
+        // 3. Grading Logic
         async function gradeEssay() {
             const essay = document.getElementById('essayInput').value;
-            if (essay.length < 50) return alert("Please paste a longer essay draft so I can analyze it properly.");
+            if (essay.length < 50) return alert("Please paste a longer essay draft.");
 
-            const btn = document.querySelector('.magic-btn');
+            const btn = document.getElementById('submitBtn');
             const loading = document.getElementById('loadingMsg');
             const result = document.getElementById('result');
 
@@ -293,22 +214,22 @@
 
                 const data = await response.json();
                 
+                // Map the new API fields to the HTML elements
                 document.getElementById('scoreDisplay').innerText = data.score;
-                document.getElementById('phoenixOut').innerText = data.phoenix_feedback;
-                document.getElementById('hookOut').innerText = data.hook_feedback;
-                document.getElementById('voiceOut').innerText = data.voice_feedback;
+                document.getElementById('narrativeOut').innerText = data.narrative_analysis;
+                document.getElementById('storytellingOut').innerText = data.storytelling_feedback;
+                document.getElementById('structureOut').innerText = data.structure_feedback;
+                document.getElementById('mechanicsOut').innerText = data.mechanics_feedback;
+                document.getElementById('specialOut').innerText = data.special_rules_feedback;
+                document.getElementById('coherenceOut').innerText = data.coherence_feedback;
                 document.getElementById('mainCritiqueOut').innerText = data.main_critique;
                 document.getElementById('upsellOut').innerText = data.upsell_blurb;
                 
                 result.style.display = 'block';
                 result.scrollIntoView({ behavior: 'smooth' });
 
-                // 2. LOCK THE DOOR: Save the "used" tag to their browser
+                // Lock the user out for next time
                 localStorage.setItem('essaySenseiUsed', 'true');
-
-                // Optional: Disable the button so they can't click it again immediately
-                btn.innerText = "Assessment Complete";
-                btn.style.display = 'none';
 
             } catch (err) {
                 console.error(err);
