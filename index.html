@@ -28,11 +28,10 @@
             line-height: 1.6;
         }
 
-        /* Hero Section (The Navy Blue Top) */
         .hero {
             background-color: var(--navy);
             color: var(--white);
-            padding: 60px 20px 100px 20px; /* Extra padding at bottom for overlap */
+            padding: 60px 20px 100px 20px;
             text-align: center;
         }
 
@@ -52,10 +51,9 @@
             font-size: 1.1rem;
         }
 
-        /* The Main Card Container */
         .container {
             max-width: 800px;
-            margin: -60px auto 50px auto; /* Pulls the card up into the blue section */
+            margin: -60px auto 50px auto;
             background: var(--white);
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -63,18 +61,12 @@
             position: relative;
         }
 
-        /* Intro Text inside the card */
         .intro-text {
             text-align: center;
             margin-bottom: 30px;
             color: var(--text-light);
         }
-        
-        .intro-text strong {
-            color: var(--navy);
-        }
 
-        /* Input Area */
         textarea {
             width: 100%;
             height: 300px;
@@ -85,7 +77,7 @@
             font-family: 'Inter', sans-serif;
             resize: vertical;
             transition: all 0.3s ease;
-            box-sizing: border-box; /* Ensures padding doesn't break layout */
+            box-sizing: border-box;
         }
 
         textarea:focus {
@@ -94,7 +86,6 @@
             box-shadow: 0 0 0 4px rgba(10, 37, 64, 0.1);
         }
 
-        /* The Magic Button */
         .magic-btn {
             display: block;
             width: 100%;
@@ -117,28 +108,11 @@
             transform: translateY(-2px);
         }
 
-        /* Loading State */
-        .loading {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-            color: var(--text-light);
-            font-style: italic;
-        }
+        .loading { display: none; text-align: center; margin-top: 20px; color: var(--text-light); font-style: italic; }
 
-        /* Results Section */
-        #result {
-            display: none;
-            margin-top: 40px;
-            border-top: 1px solid #eee;
-            padding-top: 30px;
-            animation: fadeIn 0.6s ease;
-        }
+        #result { display: none; margin-top: 40px; border-top: 1px solid #eee; padding-top: 30px; animation: fadeIn 0.6s ease; }
 
-        .score-display {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+        .score-display { text-align: center; margin-bottom: 30px; }
 
         .score-circle {
             width: 120px;
@@ -156,15 +130,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .score-label {
-            display: block;
-            margin-top: 10px;
-            font-weight: 600;
-            color: var(--navy);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-        }
+        .score-label { display: block; margin-top: 10px; font-weight: 600; color: var(--navy); text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
 
         .feedback-card {
             background: var(--light-gold);
@@ -174,14 +140,8 @@
             border-radius: 4px;
         }
 
-        .feedback-card h3 {
-            margin-top: 0;
-            color: var(--navy);
-            font-family: 'Merriweather', serif;
-            font-size: 1.1rem;
-        }
+        .feedback-card h3 { margin-top: 0; color: var(--navy); font-family: 'Merriweather', serif; font-size: 1.1rem; }
 
-        /* Call to Action Box */
         .cta-box {
             text-align: center;
             background: #fff;
@@ -206,17 +166,21 @@
             font-size: 0.9rem;
         }
 
-        .cta-btn:hover {
-            background: #b5952f;
-            transform: scale(1.05);
-        }
+        .cta-btn:hover { background: #b5952f; transform: scale(1.05); }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* The "Lock" Screen Overlay */
+        #limitReached {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background: #fdf2f2;
+            border: 2px solid #e74c3c;
+            border-radius: 8px;
         }
+        #limitReached h2 { color: #c0392b; font-family: 'Merriweather', serif; }
 
-        /* Mobile Responsive */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
         @media (max-width: 600px) {
             .hero { padding: 40px 20px 80px 20px; }
             .hero h1 { font-size: 2rem; }
@@ -233,20 +197,29 @@
 
     <div class="container">
         
-        <div class="intro-text">
-            <h2 style="font-family: 'Merriweather', serif; color: var(--navy); margin-bottom: 15px;">Free Essay Assessment Tool</h2>
-            <p>
-                Welcome. I have distilled my years of Ivy League admissions consulting into this exclusive tool. 
-                Paste your draft below to receive instant, honest feedback on your narrative arc, voice, and admissions potential.
-            </p>
-            <p style="font-size: 0.9rem; opacity: 0.8;">(Don't worry, your essay remains private.)</p>
+        <div id="graderInterface">
+            <div class="intro-text">
+                <h2 style="font-family: 'Merriweather', serif; color: var(--navy); margin-bottom: 15px;">Free Essay Assessment Tool</h2>
+                <p>
+                    Welcome. I have distilled my years of Ivy League admissions consulting into this exclusive tool. 
+                    Paste your draft below to receive instant, honest feedback on your narrative arc, voice, and admissions potential.
+                </p>
+                <p style="font-size: 0.9rem; opacity: 0.8;">(Limit: 1 Free Check per Student)</p>
+            </div>
+
+            <textarea id="essayInput" placeholder="Paste your Common App or Supplemental essay here..."></textarea>
+            
+            <button class="magic-btn" onclick="gradeEssay()">Let Dr. Rahmani Work His Magic ✨</button>
+            
+            <p class="loading" id="loadingMsg">Analyzing your narrative structure... please wait...</p>
         </div>
 
-        <textarea id="essayInput" placeholder="Paste your Common App or Supplemental essay here..."></textarea>
-        
-        <button class="magic-btn" onclick="gradeEssay()">Let Dr. Rahmani Work His Magic ✨</button>
-        
-        <p class="loading" id="loadingMsg">Analyzing your narrative structure... please wait...</p>
+        <div id="limitReached">
+            <h2>⚠️ Assessment Limit Reached</h2>
+            <p>You have already used your free essay analysis. Excellent essays require multiple revisions and expert human insight.</p>
+            <p>To get a second look or a full edit, please work with me directly.</p>
+            <a href="https://essaysensei.vip" target="_blank" class="cta-btn">Book Dr. Rahmani Now</a>
+        </div>
 
         <div id="result">
             <div class="score-display">
@@ -284,16 +257,27 @@
     </div>
 
     <script>
+        // 1. CHECK ON LOAD: Has the user been here before?
+        window.onload = function() {
+            if (localStorage.getItem('essaySenseiUsed') === 'true') {
+                showLimitReached();
+            }
+        };
+
+        function showLimitReached() {
+            document.getElementById('graderInterface').style.display = 'none';
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('limitReached').style.display = 'block';
+        }
+
         async function gradeEssay() {
             const essay = document.getElementById('essayInput').value;
-            // Simple check to ensure they actually pasted something meaningful
             if (essay.length < 50) return alert("Please paste a longer essay draft so I can analyze it properly.");
 
             const btn = document.querySelector('.magic-btn');
             const loading = document.getElementById('loadingMsg');
             const result = document.getElementById('result');
 
-            // UI State: Loading
             btn.disabled = true;
             btn.style.opacity = "0.7";
             btn.innerText = "Consulting the AI Model...";
@@ -301,7 +285,6 @@
             result.style.display = 'none';
 
             try {
-                // Call the backend (Vercel Function)
                 const response = await fetch('/api/grade', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -310,7 +293,6 @@
 
                 const data = await response.json();
                 
-                // Update the UI with data from the AI
                 document.getElementById('scoreDisplay').innerText = data.score;
                 document.getElementById('phoenixOut').innerText = data.phoenix_feedback;
                 document.getElementById('hookOut').innerText = data.hook_feedback;
@@ -318,21 +300,23 @@
                 document.getElementById('mainCritiqueOut').innerText = data.main_critique;
                 document.getElementById('upsellOut').innerText = data.upsell_blurb;
                 
-                // Show Result
                 result.style.display = 'block';
-                
-                // Smooth scroll to results
                 result.scrollIntoView({ behavior: 'smooth' });
+
+                // 2. LOCK THE DOOR: Save the "used" tag to their browser
+                localStorage.setItem('essaySenseiUsed', 'true');
+
+                // Optional: Disable the button so they can't click it again immediately
+                btn.innerText = "Assessment Complete";
+                btn.style.display = 'none';
 
             } catch (err) {
                 console.error(err);
                 alert("Something went wrong. Please try again.");
-            } finally {
-                // Reset UI State
-                loading.style.display = 'none';
                 btn.disabled = false;
-                btn.style.opacity = "1";
                 btn.innerText = "Let Dr. Rahmani Work His Magic ✨";
+            } finally {
+                loading.style.display = 'none';
             }
         }
     </script>
