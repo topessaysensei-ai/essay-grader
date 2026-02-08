@@ -8,16 +8,14 @@ export default async function handler(req) {
   }
 
   try {
-    // We now accept studentName and studentEmail
     const { essay, studentName, studentEmail } = await req.json();
 
     if (!essay || essay.length < 50) {
       return new Response(JSON.stringify({ error: "Essay is too short to grade." }), { status: 400 });
     }
 
-    // --- LOG THE LEAD ---
-    // This prints the email to your Vercel Dashboard Logs
-    console.log(`NEW LEAD CAPTURED: Name: ${studentName}, Email: ${studentEmail}`);
+    // 1. Log the attempt immediately (in case the AI fails, you still have the lead)
+    console.log(`NEW LEAD STARTED: Name: ${studentName}, Email: ${studentEmail}`);
 
     const systemPrompt = `
       You are Dr. Arash Rahmani, a strict Ivy League admissions reader.
@@ -40,12 +38,12 @@ export default async function handler(req) {
       OUTPUT JSON:
       {
         "score": (Integer 1-100. <70 bad, 70-89 average, 90+ Ivy),
-        "narrative_problem": (String: e.g. "The narrative remains static; the protagonist ends in the same emotional place they started."),
-        "storytelling_problem": (String: e.g. "The opening is a generic dictionary definition that fails to grab attention."),
-        "structure_problem": (String: e.g. "The transitions between paragraphs are abrupt, making the timeline confusing."),
-        "mechanics_problem": (String: e.g. "Sentence structure is repetitive and relies heavily on passive voice."),
-        "special_problem": (String: e.g. "The essay relies on abstract adjectives rather than sensory details to convey emotion."),
-        "coherence_problem": (String: e.g. "The central theme gets lost in unrelated anecdotes.")
+        "narrative_problem": (String: e.g. "The narrative remains static..."),
+        "storytelling_problem": (String: e.g. "The opening is a generic..."),
+        "structure_problem": (String: e.g. "The transitions between paragraphs..."),
+        "mechanics_problem": (String: e.g. "Sentence structure is repetitive..."),
+        "special_problem": (String: e.g. "The essay relies on abstract adjectives..."),
+        "coherence_problem": (String: e.g. "The central theme gets lost...")
       }
     `;
 
@@ -68,7 +66,13 @@ export default async function handler(req) {
 
     const data = await response.json();
     
-    return new Response(data.choices[0].message.content, {
+    // 2. Parse the result so we can extract the score
+    const result = JSON.parse(data.choices[0].message.content);
+
+    // 3. LOG THE FINAL SCORE FOR YOU
+    console.log(`LEAD SCORED: Name: ${studentName}, Email: ${studentEmail}, Score: ${result.score}`);
+
+    return new Response(JSON.stringify(result), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });
