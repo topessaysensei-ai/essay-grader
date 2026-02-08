@@ -12,12 +12,18 @@
         :root {
             --navy: #0A2540;
             --gold: #D4AF37;
-            --light-gold: #f9f4e0;
             --white: #ffffff;
             --gray: #f4f6f8;
             --text-dark: #333333;
             --text-light: #666666;
             --error-red: #d9534f;
+            /* Rubric Colors */
+            --color-narrative: #D4AF37; /* Gold */
+            --color-storytelling: #e67e22; /* Orange */
+            --color-structure: #1abc9c; /* Teal */
+            --color-mechanics: #9b59b6; /* Purple */
+            --color-special: #e74c3c; /* Red */
+            --color-coherence: #2ecc71; /* Green */
         }
 
         body { font-family: 'Inter', sans-serif; background-color: var(--gray); margin: 0; padding: 0; color: var(--text-dark); line-height: 1.6; }
@@ -26,7 +32,7 @@
         .hero h1 { font-family: 'Merriweather', serif; font-size: 2.5rem; margin: 0; font-weight: 700; }
         .hero p.tagline { font-family: 'Merriweather', serif; font-style: italic; font-weight: 300; opacity: 0.9; margin-top: 10px; font-size: 1.1rem; }
 
-        .container { max-width: 800px; margin: -60px auto 50px auto; background: var(--white); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 40px; position: relative; }
+        .container { max-width: 1000px; margin: -60px auto 50px auto; background: var(--white); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 40px; position: relative; }
 
         .intro-text { text-align: center; margin-bottom: 30px; color: var(--text-light); }
         .intro-text h2 { font-family: 'Merriweather', serif; color: var(--navy); margin-bottom: 15px; }
@@ -47,29 +53,46 @@
 
         #result { display: none; margin-top: 40px; border-top: 1px solid #eee; padding-top: 30px; animation: fadeIn 0.6s ease; }
         
-        .score-display { text-align: center; margin-bottom: 30px; }
-        .score-circle { width: 120px; height: 120px; background: var(--navy); color: var(--white); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 42px; font-weight: 700; font-family: 'Merriweather', serif; border: 4px solid var(--gold); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .score-label { display: block; margin-top: 10px; font-weight: 600; color: var(--navy); text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
+        /* --- NEW RESULTS SECTION STYLES --- */
 
-        /* New Grid Layout for Feedback */
-        .feedback-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-        @media (min-width: 600px) { .feedback-grid { grid-template-columns: 1fr 1fr; } }
+        /* Overall Score Bar */
+        .overall-score-container { margin-bottom: 50px; text-align: center; }
+        .overall-score-title { font-family: 'Merriweather', serif; color: var(--navy); font-size: 1.8rem; margin-bottom: 20px; }
+        .progress-bar-bg { height: 36px; background-color: #e0e0e0; border-radius: 18px; overflow: hidden; position: relative; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
+        .progress-bar-fg { height: 100%; background: linear-gradient(90deg, var(--navy), var(--gold)); width: 0%; border-radius: 18px; transition: width 1.5s ease-in-out; display: flex; align-items: center; justify-content: flex-end; padding-right: 20px; color: var(--white); font-weight: bold; font-size: 1.1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
 
-        .feedback-card { background: var(--gray); border-left: 4px solid var(--navy); padding: 15px 20px; border-radius: 4px; }
-        .feedback-card h3 { margin-top: 0; color: var(--navy); font-family: 'Merriweather', serif; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
-        .feedback-card p { font-size: 0.95rem; margin-bottom: 0; color: #444; }
+        /* Rubric Cards Grid */
+        .rubric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 50px; }
+        .rubric-card { background: var(--white); padding: 30px; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.07); text-align: center; border-top: 6px solid var(--progress-color, var(--navy)); transition: transform 0.3s ease; }
+        .rubric-card:hover { transform: translateY(-5px); }
+        .rubric-title { font-family: 'Merriweather', serif; color: var(--navy); font-size: 1.2rem; margin-bottom: 25px; min-height: 50px; display: flex; align-items: center; justify-content: center; }
 
-        .special-rule-card { grid-column: 1 / -1; background: var(--light-gold); border-left-color: var(--gold); }
+        /* Circular Progress Bar */
+        .progress-circle { position: relative; width: 140px; height: 140px; margin: 0 auto 25px; }
+        .progress-circle svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+        .progress-circle circle { fill: none; stroke-width: 12; }
+        .progress-circle-bg { stroke: #e6e6e6; }
+        .progress-circle-fg { stroke: var(--progress-color, var(--navy)); stroke-dasharray: 377; /* 2 * pi * r (r=60) */ stroke-dashoffset: 377; transition: stroke-dashoffset 1.5s ease-in-out; stroke-linecap: round; }
+        .progress-circle-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+        .progress-percent { font-family: 'Merriweather', serif; font-size: 32px; font-weight: 700; color: var(--navy); }
 
-        .cta-box { text-align: center; background: #fff; border: 2px solid var(--navy); padding: 30px; border-radius: 8px; margin-top: 40px; }
-        .cta-btn { display: inline-block; background: var(--gold); color: var(--navy); padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; margin-top: 15px; transition: all 0.2s; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
-        .cta-btn:hover { background: #b5952f; transform: scale(1.05); }
+        /* "What is wrong" Box */
+        .rubric-wrong-box { background: #fff0f0; border-left: 4px solid var(--error-red); padding: 15px 20px; border-radius: 8px; margin-top: 25px; text-align: left; }
+        .rubric-wrong-title { font-family: 'Inter', sans-serif; font-weight: 700; color: var(--error-red); margin-bottom: 8px; display: block; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .rubric-wrong-text { font-size: 0.95rem; color: var(--text-dark); margin: 0; font-style: italic; }
+
+        /* Main Critique & CTA */
+        .main-critique-box { background: var(--navy); color: var(--white); padding: 30px; border-radius: 12px; text-align: center; margin-bottom: 30px; }
+        .main-critique-box h3 { font-family: 'Merriweather', serif; margin-top: 0; color: var(--gold); }
+        .cta-box { text-align: center; background: #fff; border: 3px solid var(--navy); padding: 40px; border-radius: 12px; }
+        .cta-btn { display: inline-block; background: var(--gold); color: var(--navy); padding: 18px 35px; border-radius: 50px; text-decoration: none; font-weight: bold; margin-top: 20px; transition: all 0.2s; text-transform: uppercase; letter-spacing: 1px; font-size: 1rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
+        .cta-btn:hover { background: #c49b2c; transform: scale(1.05); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6); }
 
         #limitReached { display: none; text-align: center; padding: 40px; background: #fdf2f2; border: 2px solid #e74c3c; border-radius: 8px; }
         #limitReached h2 { color: #c0392b; font-family: 'Merriweather', serif; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 600px) { .hero { padding: 40px 20px 80px 20px; } .hero h1 { font-size: 2rem; } .container { padding: 20px; margin-top: -50px; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 768px) { .hero { padding: 40px 20px 80px 20px; } .hero h1 { font-size: 2rem; } .container { padding: 25px; margin-top: -50px; } .rubric-grid { grid-template-columns: 1fr; } .overall-score-title { font-size: 1.5rem; } }
     </style>
 </head>
 <body>
@@ -93,7 +116,7 @@
             
             <button id="submitBtn" class="magic-btn" onclick="gradeEssay()">Let Dr. Rahmani Work His Magic ✨</button>
             
-            <p class="loading" id="loadingMsg">Analyzing narrative arc and syntax... please wait...</p>
+            <p class="loading" id="loadingMsg">Analyzing your narrative arc and syntax... please wait...</p>
         </div>
 
         <div id="limitReached">
@@ -104,48 +127,133 @@
         </div>
 
         <div id="result">
-            <div class="score-display">
-                <div class="score-circle" id="scoreDisplay">--</div>
-                <span class="score-label">Acceptance Potential</span>
+            
+            <div class="overall-score-container">
+                <h2 class="overall-score-title">Overall Acceptance Potential</h2>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fg" id="overallProgressBar" style="width: 0%;">
+                        <span id="overallScoreText">0%</span>
+                    </div>
+                </div>
+                <p style="margin-top: 15px; color: var(--text-light); font-style: italic;" id="overallScoreNarrative">Your essay is on its way...</p>
             </div>
 
-            <div style="margin-bottom: 25px;">
-                <h3 style="font-family: 'Merriweather', serif; color: var(--navy); border-bottom: 2px solid #eee; padding-bottom: 10px;">PhD Analysis</h3>
+            <div style="margin-bottom: 35px; text-align: center;">
+                <h3 style="font-family: 'Merriweather', serif; color: var(--navy); display: inline-block; border-bottom: 3px solid var(--gold); padding-bottom: 10px;">Detailed PhD Analysis</h3>
             </div>
 
-            <div class="feedback-grid">
-                <div class="feedback-card">
-                    <h3>📖 Narrative Arc</h3>
-                    <p id="narrativeOut">...</p>
+            <div class="rubric-grid">
+                <div class="rubric-card" style="--progress-color: var(--color-narrative);">
+                    <div class="rubric-title">📖 Narrative Arc</div>
+                    <div class="progress-circle" data-score="0">
+                        <svg viewBox="0 0 140 140">
+                            <circle class="progress-circle-bg" cx="70" cy="70" r="60"></circle>
+                            <circle class="progress-circle-fg" cx="70" cy="70" r="60"></circle>
+                        </svg>
+                        <div class="progress-circle-text">
+                            <span class="progress-percent" id="score-narrative">0%</span>
+                        </div>
+                    </div>
+                    <div class="rubric-wrong-box">
+                        <span class="rubric-wrong-title">The Issue:</span>
+                        <p class="rubric-wrong-text" id="narrativeOut">...</p>
+                    </div>
                 </div>
-                <div class="feedback-card">
-                    <h3>🎣 Storytelling</h3>
-                    <p id="storytellingOut">...</p>
+
+                <div class="rubric-card" style="--progress-color: var(--color-storytelling);">
+                    <div class="rubric-title">🎣 Storytelling & Hook</div>
+                    <div class="progress-circle" data-score="0">
+                        <svg viewBox="0 0 140 140">
+                            <circle class="progress-circle-bg" cx="70" cy="70" r="60"></circle>
+                            <circle class="progress-circle-fg" cx="70" cy="70" r="60"></circle>
+                        </svg>
+                        <div class="progress-circle-text">
+                            <span class="progress-percent" id="score-storytelling">0%</span>
+                        </div>
+                    </div>
+                    <div class="rubric-wrong-box">
+                        <span class="rubric-wrong-title">The Issue:</span>
+                        <p class="rubric-wrong-text" id="storytellingOut">...</p>
+                    </div>
                 </div>
-                <div class="feedback-card">
-                    <h3>🏗️ Paragraph Structure</h3>
-                    <p id="structureOut">...</p>
+
+                <div class="rubric-card" style="--progress-color: var(--color-structure);">
+                    <div class="rubric-title">🏗️ Paragraph Structure</div>
+                    <div class="progress-circle" data-score="0">
+                        <svg viewBox="0 0 140 140">
+                            <circle class="progress-circle-bg" cx="70" cy="70" r="60"></circle>
+                            <circle class="progress-circle-fg" cx="70" cy="70" r="60"></circle>
+                        </svg>
+                        <div class="progress-circle-text">
+                            <span class="progress-percent" id="score-structure">0%</span>
+                        </div>
+                    </div>
+                    <div class="rubric-wrong-box">
+                        <span class="rubric-wrong-title">The Issue:</span>
+                        <p class="rubric-wrong-text" id="structureOut">...</p>
+                    </div>
                 </div>
-                <div class="feedback-card">
-                    <h3>✒️ Syntax & Grammar</h3>
-                    <p id="mechanicsOut">...</p>
+
+                <div class="rubric-card" style="--progress-color: var(--color-mechanics);">
+                    <div class="rubric-title">✒️ Syntax & Grammar</div>
+                    <div class="progress-circle" data-score="0">
+                        <svg viewBox="0 0 140 140">
+                            <circle class="progress-circle-bg" cx="70" cy="70" r="60"></circle>
+                            <circle class="progress-circle-fg" cx="70" cy="70" r="60"></circle>
+                        </svg>
+                        <div class="progress-circle-text">
+                            <span class="progress-percent" id="score-mechanics">0%</span>
+                        </div>
+                    </div>
+                    <div class="rubric-wrong-box">
+                        <span class="rubric-wrong-title">The Issue:</span>
+                        <p class="rubric-wrong-text" id="mechanicsOut">...</p>
+                    </div>
                 </div>
                 
-                <div class="feedback-card special-rule-card">
-                    <h3>🌟 Special Rules (Phoenix & Show Don't Tell)</h3>
-                    <p id="specialOut">...</p>
+                <div class="rubric-card" style="--progress-color: var(--color-special);">
+                    <div class="rubric-title">🌟 Special Rules (Phoenix & Show Don't Tell)</div>
+                    <div class="progress-circle" data-score="0">
+                        <svg viewBox="0 0 140 140">
+                            <circle class="progress-circle-bg" cx="70" cy="70" r="60"></circle>
+                            <circle class="progress-circle-fg" cx="70" cy="70" r="60"></circle>
+                        </svg>
+                        <div class="progress-circle-text">
+                            <span class="progress-percent" id="score-special">0%</span>
+                        </div>
+                    </div>
+                    <div class="rubric-wrong-box">
+                        <span class="rubric-wrong-title">The Issue:</span>
+                        <p class="rubric-wrong-text" id="specialOut">...</p>
+                    </div>
                 </div>
                 
-                <div class="feedback-card special-rule-card" style="background: #eef7ff; border-left-color: #27ae60;">
-                    <h3>🔗 Coherence & Cohesion</h3>
-                    <p id="coherenceOut">...</p>
+                <div class="rubric-card" style="--progress-color: var(--color-coherence);">
+                    <div class="rubric-title">🔗 Coherence & Cohesion</div>
+                    <div class="progress-circle" data-score="0">
+                        <svg viewBox="0 0 140 140">
+                            <circle class="progress-circle-bg" cx="70" cy="70" r="60"></circle>
+                            <circle class="progress-circle-fg" cx="70" cy="70" r="60"></circle>
+                        </svg>
+                        <div class="progress-circle-text">
+                            <span class="progress-percent" id="score-coherence">0%</span>
+                        </div>
+                    </div>
+                    <div class="rubric-wrong-box">
+                        <span class="rubric-wrong-title">The Issue:</span>
+                        <p class="rubric-wrong-text" id="coherenceOut">...</p>
+                    </div>
                 </div>
+            </div>
+
+            <div class="main-critique-box">
+                <h3>Main Critique</h3>
+                <p id="mainCritiqueOut" style="font-size: 1.1rem; font-weight: 500;"></p>
             </div>
 
             <div class="cta-box">
-                <h3 style="margin-top: 0; color: var(--navy);">Main Critique</h3>
-                <p id="mainCritiqueOut" style="margin-bottom: 20px; font-weight: 500; color: #d9534f;"></p>
-                <p id="upsellOut" style="font-size: 0.9rem;"></p>
+                <h3 style="margin-top: 0; color: var(--navy); font-family: 'Merriweather', serif;">Ready to Fix It?</h3>
+                <p id="upsellOut" style="margin-bottom: 25px; color: var(--text-light);">Knowing the problem is half the battle. Expert guidance is the other half.</p>
                 <a href="https://essaysensei.vip" target="_blank" class="cta-btn">Book Full Essay Review</a>
             </div>
         </div>
@@ -171,23 +279,34 @@
             const textarea = document.getElementById('essayInput');
             const counter = document.getElementById('wordCountDisplay');
             const btn = document.getElementById('submitBtn');
-            
-            // Count words by splitting by spaces (filter removes empty strings)
             const words = textarea.value.trim().split(/\s+/).filter(word => word.length > 0).length;
-            
             counter.innerText = `Words: ${words} / 700`;
-
             if (words > 700) {
-                counter.classList.add('over-limit');
-                textarea.classList.add('error');
-                btn.disabled = true;
-                btn.innerText = "Word Limit Exceeded (Max 700)";
+                counter.classList.add('over-limit'); textarea.classList.add('error'); btn.disabled = true; btn.innerText = "Word Limit Exceeded (Max 700)";
             } else {
-                counter.classList.remove('over-limit');
-                textarea.classList.remove('error');
-                btn.disabled = false;
-                btn.innerText = "Let Dr. Rahmani Work His Magic ✨";
+                counter.classList.remove('over-limit'); textarea.classList.remove('error'); btn.disabled = false; btn.innerText = "Let Dr. Rahmani Work His Magic ✨";
             }
+        }
+
+        // Helper to animate progress bars
+        function animateProgress(elementId, textId, score) {
+            const circle = document.querySelector(`#${elementId} .progress-circle-fg`);
+            const text = document.getElementById(textId);
+            const radius = circle.getAttribute('r');
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (score / 100 * circumference);
+            
+            circle.style.strokeDashoffset = offset;
+            
+            let currentScore = 0;
+            const interval = setInterval(() => {
+                if (currentScore >= score) {
+                    clearInterval(interval);
+                } else {
+                    currentScore++;
+                    text.innerText = `${currentScore}%`;
+                }
+            }, 15); // Adjust speed of number counting
         }
 
         // 3. Grading Logic
@@ -214,21 +333,57 @@
 
                 const data = await response.json();
                 
-                // Map the new API fields to the HTML elements
-                document.getElementById('scoreDisplay').innerText = data.score;
+                // Update Overall Score Bar
+                const overallBar = document.getElementById('overallProgressBar');
+                const overallText = document.getElementById('overallScoreText');
+                const overallNarrative = document.getElementById('overallScoreNarrative');
+                
+                overallBar.style.width = `${data.score}%`;
+                
+                let currentOverall = 0;
+                const overallInterval = setInterval(() => {
+                    if (currentOverall >= data.score) {
+                        clearInterval(overallInterval);
+                        overallText.innerText = `${data.score}%`;
+                    } else {
+                        currentOverall++;
+                        overallText.innerText = `${currentOverall}%`;
+                    }
+                }, 15);
+                
+                overallNarrative.innerText = `Your essay is ${data.score}% of the way to an acceptance-worthy narrative.`;
+
+                // Update Circular Progress Bars & Feedback Text
+                // Note: Since the current API only returns one overall score, I'm using that for all circles for now.
+                // To get individual scores, you'd need to update the backend prompt to return separate scores for each category.
+                const categoryScore = data.score; 
+
+                animateProgress('result', 'score-narrative', categoryScore);
                 document.getElementById('narrativeOut').innerText = data.narrative_analysis;
+
+                animateProgress('result', 'score-storytelling', categoryScore);
                 document.getElementById('storytellingOut').innerText = data.storytelling_feedback;
+
+                animateProgress('result', 'score-structure', categoryScore);
                 document.getElementById('structureOut').innerText = data.structure_feedback;
+
+                animateProgress('result', 'score-mechanics', categoryScore);
                 document.getElementById('mechanicsOut').innerText = data.mechanics_feedback;
+
+                animateProgress('result', 'score-special', categoryScore);
                 document.getElementById('specialOut').innerText = data.special_rules_feedback;
+
+                animateProgress('result', 'score-coherence', categoryScore);
                 document.getElementById('coherenceOut').innerText = data.coherence_feedback;
+
                 document.getElementById('mainCritiqueOut').innerText = data.main_critique;
                 document.getElementById('upsellOut').innerText = data.upsell_blurb;
                 
                 result.style.display = 'block';
-                result.scrollIntoView({ behavior: 'smooth' });
+                setTimeout(() => {
+                    result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100); // Small delay to allow display:block to render
 
-                // Lock the user out for next time
                 localStorage.setItem('essaySenseiUsed', 'true');
 
             } catch (err) {
